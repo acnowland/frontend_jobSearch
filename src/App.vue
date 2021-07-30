@@ -1,15 +1,40 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<w-app id="app">
+  <Header /> 
+  
+  <MainBody />
+ 
+  <footer class="text-center footer">Copyright 2021, Adam Nowland</footer>
+</w-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import MainBody from './components/MainBody.vue'
+
 
 export default {
   name: 'App',
+  data(){
+    return {
+      posts: []
+    }
+  },
   components: {
-    HelloWorld
+    Header,
+    MainBody
+    
+  },
+  methods: {
+    async getPost(){
+      const res = await fetch('http://localhost:5000/api/posts')
+      const data = await res.json()
+      console.log(data)
+      return data
+    }
+  },
+  created(){
+    this.posts = this.getPost()
   }
 }
 </script>
@@ -19,8 +44,14 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 50px;
+}
+.footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 </style>
